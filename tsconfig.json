@@ -2,12 +2,16 @@
   "extends": "@strapi/typescript-utils/tsconfigs/server",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "moduleResolution": "node",
+    "types": ["node", "google-auth-library"],
+    "skipLibCheck": true,
+    "esModuleInterop": true
   },
   "include": [
     "./",
     "./**/*.ts",
-    "./**/*.js",
+    "./src/**/*.ts",
     "src/**/*.json"
   ],
   "exclude": [

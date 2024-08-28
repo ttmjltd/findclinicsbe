@@ -788,6 +788,56 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface PluginRedirectsRedirect extends Schema.CollectionType {
+  collectionName: 'redirects';
+  info: {
+    singularName: 'redirect';
+    pluralName: 'redirects';
+    displayName: 'redirect';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    from: Attribute.String & Attribute.Required;
+    to: Attribute.String & Attribute.Required;
+    type: Attribute.Enumeration<
+      [
+        'found_302',
+        'moved_permanently_301',
+        'temporary_redirect_307',
+        'gone_410',
+        'unavailable_for_legal_reasons_451'
+      ]
+    > &
+      Attribute.Required &
+      Attribute.DefaultTo<'found_302'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::redirects.redirect',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::redirects.redirect',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -806,6 +856,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'plugin::redirects.redirect': PluginRedirectsRedirect;
     }
   }
 }
